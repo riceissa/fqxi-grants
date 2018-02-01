@@ -54,7 +54,7 @@ def main():
                     mysql_quote(""),  # affected_regions
                 ]) + ")")
                 first = False
-            print(";")
+    print(";")
 
 
 def mysql_quote(x):
