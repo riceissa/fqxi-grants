@@ -1,6 +1,6 @@
 This is for https://github.com/vipulnaik/donations
 
-There is no specific issue.
+Specific issue: https://github.com/vipulnaik/donations/issues/39
 
 ## License
 
