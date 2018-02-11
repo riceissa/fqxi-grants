@@ -16,7 +16,7 @@ DATA = [
 
 def main():
     first = True
-    print("""insert into donations (donor, donee, amount, donation_date,
+    print("""insert into donations (donor, donee, donation_earmark, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states,
     affected_cities, affected_regions) values""")
@@ -27,8 +27,8 @@ def main():
             table = soup.find("table")
             for tr in table.find_all("tr"):
                 cells = tr.find_all("td")
-                grantee = cells[0].text.strip()
-                if grantee in ["Awardee", "TOTAL", ""]:
+                awardee = cells[0].text.strip()
+                if awardee in ["Awardee", "TOTAL", ""]:
                     continue
                 grantee_url = "https://fqxi.org" + cells[0].a["href"]
                 institution = cells[1].text.strip()
@@ -38,17 +38,16 @@ def main():
                 title = cells[3].text.strip()
                 print(("    " if first else "    ,") + "(" + ",".join([
                     mysql_quote("Foundational Questions Institute"),  # donor
-                    mysql_quote(grantee),  # donee
+                    mysql_quote(institution),  # donee
+                    mysql_quote(awardee),  # donation_earmark
                     str(amount),  # amount
                     mysql_quote(fp[len("data/"):-len(".html")] + "-01-01"),  # donation_date
                     mysql_quote("year"),  # donation_date_precision
                     mysql_quote("donation log"),  # donation_date_basis
                     mysql_quote("FIXME"),  # cause_area
-                    mysql_quote("https://fqxi.org/grants"),  # url
+                    mysql_quote(grantee_url),  # url
                     mysql_quote(""),  # donor_cause_area_url
-                    mysql_quote("Institution: " + institution + "; " +
-                                "project title: " + title + "; " +
-                                "more info at " + grantee_url),  # notes
+                    mysql_quote("Project title: " + title),  # notes
                     mysql_quote(""),  # affected_countries
                     mysql_quote(""),  # affected_states
                     mysql_quote(""),  # affected_cities
