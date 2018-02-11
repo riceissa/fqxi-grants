@@ -31,7 +31,7 @@ def main():
                 if awardee in ["Awardee", "TOTAL", ""]:
                     continue
                 grantee_url = "https://fqxi.org" + cells[0].a["href"]
-                institution = cells[1].text.strip()
+                institution = cells[1].text.strip().replace(",", "")
                 amount_text = cells[2].text.strip()
                 assert amount_text.startswith("$")
                 amount = float(amount_text.replace("$", "").replace(",", ""))
